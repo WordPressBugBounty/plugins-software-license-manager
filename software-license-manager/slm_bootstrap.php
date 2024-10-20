@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Software License Manager
-Version: 4.5.7
+Version: 4.5.8
 Plugin URI: https://www.tipsandtricks-hq.com/software-license-manager-plugin-for-wordpress
 Author: Tips and Tricks HQ
 Author URI: https://www.tipsandtricks-hq.com/
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 //Short name/slug "SLM" or "slm"
 
-define( 'WP_LICENSE_MANAGER_VERSION', '4.5.7' );
+define( 'WP_LICENSE_MANAGER_VERSION', '4.5.8' );
 define( 'WP_LICENSE_MANAGER_DB_VERSION', '1.6' );
 define( 'WP_LICENSE_MANAGER_FOLDER', dirname( plugin_basename( __FILE__ ) ) );
 define( 'WP_LICENSE_MANAGER_URL', plugins_url( '', __FILE__ ) );
@@ -50,3 +50,13 @@ function slm_db_install() {
 	//run the installer
 	require_once dirname( __FILE__ ) . '/slm_installer.php';
 }
+
+// Add the settings link in the plugin's menu of WP Dashboard.
+function slm_add_settings_link( $links, $file ) {
+    if ( $file == plugin_basename( __FILE__ ) ) {
+	$settings_link = '<a href="admin.php?page=wp_lic_mgr_settings">' . (__( "Settings", "slm" )) . '</a>';
+	array_unshift( $links, $settings_link );
+    }
+    return $links;
+}
+add_filter( 'plugin_action_links', 'slm_add_settings_link', 10, 2 );
